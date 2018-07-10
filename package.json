@@ -1,0 +1,13 @@
+{
+  "name": "@wane/site",
+  "version": "0.0.1",
+  "description": "Webite for Wane.",
+  "main": "index.js",
+  "repository": "https://github.com/wane/site",
+  "author": "lazarljubenovic <lazar.ljubenovic.1995@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "mkdir -p dist && cp -p src/index.html dist/index.html"
+  }
+}
