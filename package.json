@@ -8,6 +8,6 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "mkdir -p dist && cp -p src/index.html dist/index.html"
+    "build": "mkdir -p dist && cp -R src/* dist"
   }
 }

@@ -2,27 +2,576 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Wane</title>
-    <style>
-        html {
-            font-size: 150%;
-            line-height: 1.5;
-            font-family: sans-serif;
-        }
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            color: rgba(0, 0, 0, .86);
-        }
-        p {
-            font-size: 4em;
-        }
-    </style>
+    <title>Title</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<p>Coming soon.</p>
+
+<header>
+    <svg width="308" height="308" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd">
+            <path d="M158.76 34.093C139.763 69.863 129 110.675 129 154s10.763 84.137 29.76 119.907c-1.579.062-3.166.093-4.76.093-66.274 0-120-53.726-120-120S87.726 34 154 34c1.594 0 3.181.031 4.76.093z"
+                  fill="currentcolor" fill-rule="nonzero" mask="url(#b)"/>
+            <circle stroke="#1e1e1e" stroke-width="6" cx="154" cy="154" r="120"/>
+            <circle stroke="#7c203a" stroke-width="6" cx="385" cy="154" r="256"/>
+        </g>
+    </svg>
+    <h1>Wane</h1>
+</header>
+
+<aside>
+    <p>
+        <b>Wane</b> is a framework for building single page applications. But it's more than that: it's also a compiler and a bundler.
+        Instead of relying on existing framework code, it analyzes your code as if it were a blueprint for the app, and then generated
+        custom optimized code according to what it can conclude.
+    </p>
+    <p>
+        This means your code will never be bloated with features you don't use. For example, Hello World is less than 150 bytes (with brotli
+        compression).
+    </p>
+    <p>
+        The website, docs and Wane itself are still in an early alpha preview stage, so do not expect much yet.
+        Of course, you're more than welcome to <a href="https://github.com/wane/wane">try Wane out</a>.
+    </p>
+</aside>
+
+<main>
+    <h2>The basics</h2>
+
+    <p>
+        This guide is written in form of series of tutorials where we'll build a couple of small applications and
+        explain concepts on the fly. It's created for people who like to follow step-by-step guides and learn the
+        necessary building blocks when you need them.
+    </p>
+
+    <p>
+        If this is not how you typically learn, you might want to check out the <a href="#">Complete Guide</a>.
+        It gives you better foundation of the topics you need to know, but the examples are purely illustrative instead
+        of guiding you through building a complete application.
+    </p>
+
+    <p>
+        If you already now <a href="https://angular.io/">Angular</a>, <a href="https://reactjs.org/">React</a> or
+        <a href="https://vuejs.org/">Vue.js</a>, you can learn Wane's syntax in a few minutes with our
+        <a href="#">Comparison Guide</a>.
+    </p>
+
+    <article>
+        <h3>Writing the Hello World app</h3>
+
+        <section>
+            <div>
+                <div>
+                    <p>
+                        Hello World programs might not be the most interesting piece of software you'll ever built and
+                        might not provide the best insight in complexity of any framework, but they are a great way to
+                        test if your environment is correctly set up.
+                    </p>
+                    <p>
+                        We'll go through installing Wane and creating a simple app which displays "Hello, World!".
+                    </p>
+                    <p>
+                        If this is your first contact with web development, you should check out our <a href="#">quick
+                        introduction</a>. This guide assumes that you can get around the console
+                        (terminal), that you have <b>Node.js</b> and <b>npm or yarn</b> installed and that you're
+                        comfortable with using its basic commands.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div>
+                <div>
+                    <p>
+                        The setup probably feels pretty familiar since it's basically the same as using any other
+                        framework or library when developing a web app.
+                    </p>
+                    <p>
+                        Just use whichever package manager you're used to and fire the installation command. The package
+                        you're looking for is named <code>wane</code>. After installation is done, you're ready to go!
+                    </p>
+                </div>
+            </div>
+            <div>
+                <div>
+            <pre><code># with npm
+$ npm install wane
+
+# with yarn
+$ yarn add wane</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div>
+                <div>
+                    <p>
+                        Having proper <b>directory structure</b> is quite important, so we'll immediately set that up.
+                        Worry not, for now we only need one.
+                    </p>
+                    <p>
+                        In the root directory of your project, you'll need a <code>src</code> folder. This is where
+                        all the fun will happen. In that folder, create a file named <code>entry.ts</code>.
+                        This TypeScript file is where all the magics starts from. When we write the code, Wane will
+                        open this file and start analyzing your code from here.
+                    </p>
+                </div>
+            </div>
+            <div>
+                <div>
+            <pre><code>$ mkdir src
+$ touch src/entry.ts</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div>
+                <div>
+                    <p>
+                        The preparations are done and we're finally in for some code.
+                    </p>
+                    <p>
+                        Like in most SPA frameworks, your code is organized around <b>components</b>. In Wane,
+                        a component is defined by declaring <span data-trigger="class">a class</span> and attaching
+                        <span data-trigger="template-decorator">the <code>Template</code> decorator</span> to it.
+                    </p>
+                    <p>
+                        The decorator accepts <span data-trigger="template">a single argument</span> of type string
+                        which is the <b>template</b> of
+                        your component. This is where you define how things should look based on the current
+                        state of the app. Of course, in order to use the decorator, we have to <span
+                            data-trigger="import">import</span> it first.
+                    </p>
+                    <p>
+                        Every application must have exactly one <b>entry component</b>. If you imagine components in
+                        an app like a tree, the entry component is a root of that tree. In Wane, the entry component
+                        is always defined in the <code>src/entry.ts</code> file and is always the
+                        <span data-trigger="default-export">default export</span> from
+                        it.
+                    </p>
+                    <p>
+                        Our class has an empty body because there's no data in the app. All we do is present
+                        a static message. We'll add some stuff in there right after we verify that Hello World works.
+                    </p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <pre><code><span data-area="import">import { Template } from 'wane'</span>
+<span data-area="template-decorator">@Template</span>(<span data-area="template">`Hello, World!`</span>)
+<span data-area="default-export">export default</span> <span data-area="class">class</span> {
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div>
+                <div>
+                    <p>
+                        To run the application, simply run the binary executable which comes with the installed <code>wane</code>
+                        package. It's called, you guessed it, <b><code>wane</code></b>.
+                    </p>
+                    <p>
+                        You'll have to utilize your package manager because <code>wane</code> is not a global
+                        executable.
+                    </p>
+                    <p>
+                        After running the command, if everything went well, you should be seeing a friendly success
+                        message.
+                    </p>
+                    <p>
+                        The generated bundle should appear in the <code>dist</code> folder. Go into the folder and
+                        simply open the <code>index.html</code> page in your browser. You should see "Hello, World!"
+                        written at the top left corner of the page.
+                    </p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <pre><code># with npm
+$ npx wane
+
+# with yarn
+$ yarn wane</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div>
+                <div>
+                    <p>
+                        If this worked, it means we're ready to dig into some basic concepts in Wane. Pay close
+                        attention to this section. We don't call them <i>basic</i> because they're not important or
+                        because they're obvious/trivial/easy, we call them that way because they're the <b>most
+                        important things to know</b>. A vast majority of every app is built by using only things from
+                        this and the next section.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div>
+                <div>
+                    <p>
+                        Let's learn about <b>string interpolation</b>. It allows us to define a string in the component
+                        and print its value somewhere in the template.
+                    </p>
+                    <p>
+                        We can refactor our app by adding <span data-trigger="prop">the property
+                        <code>greeting</code></span>. We <span data-trigger="init">initialize</span>
+                        it with the string <code>`Hello`</code>.
+                    </p>
+                    <p>
+                        Now instead of writing "Hello" directly in the template, we want to interpolate it.
+                        This is done by enclosing the class property name in double braces:
+                        <span data-trigger="interpol">"<code>{{</code>" and "<code>}}</code>"</span>.
+                    </p>
+                    <p>
+                        When Wane renders the template, it sees the interpolation braces and the property name
+                        written inside it. Then it checks the current value of the property with that name and
+                        prints the value.
+                    </p>
+                    <p>
+                        Whenever the value changes, the view will update automatically. We'll get to that pretty soon.
+                    </p>
+                    <p>
+                        If you compile the app again, you'll see that nothing changed. This is because we've
+                        created the exact replica of the previous file, just in a different way.
+                        Change the string <i>Hello</i> to <i>Hey there</i> to see the change.
+                    </p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <pre><code>import { Template } from 'wane'
+@Template(`<span data-area="interpol">{{ greeting }}</span>, World!`)
+export default class {
+  <span data-area="prop">greeting</span> <span data-area="init">= `Hello`</span>
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div>
+                <div>
+                    <p>
+                        Time to add some <b>interactivity</b> to our app. We'll create a button which changes
+                        the greeting from <i>Hey there</i> to <i>Hello</i> and vice-versa when clicked.
+                    </p>
+                    <p>
+                        The first step is to simply <span data-trigger="button">add the button</span> to the template.
+                        If you click it, it
+                        will not do anything yet.
+                    </p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <pre><code>import { Template } from 'wane'
+
+@Template(`
+  &lt;p>{{ greeting }}, World!&lt;/p>
+  <span data-area="button">&lt;button>Toggle greeting&lt;/button></span>
+`)
+export default class {
+  greeting = `Hey there`
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div>
+                <div>
+                    <p>
+                        Now let's create the <span data-trigger="method">method</span> on the class which does the
+                        toggling. It's simple: if the
+                        string already is <i>Hey there</i>, we change it to <i>Hello</i> and otherwise we change it
+                        to <i>Hey there</i>.
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <pre><code>import { Template } from 'wane'
+
+@Template(`
+  &lt;p>{{ greeting }}, World!&lt;/p>
+  &lt;button>Toggle greeting&lt;/button>
+`)
+export default class {
+  greeting = `Hey there`
+
+<span data-area="method">  toggleMessage () {
+    if (this.greeting == `Hey there`) {
+      this.greeting = `Hello`
+    } else {
+      this.greeting = `Hey there`
+    }
+  }</span>
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div>
+                <div>
+                    <p>
+                        What we need to do now is to make clicking the button invoke the method
+                        <code>toggleMessage</code>.
+                    </p>
+                    <p>
+                        To do this, we need an <b>event binding</b> on the <code>&lt;button></code> element.
+                        This is done by <span data-trigger="binding">adding an attribute</span> in the template.
+                        The attribute name is the name of the event
+                        you're listening for, surrounded by parenthesis.
+                    </p>
+                    <p>
+                        For example, if we want to invoke (ie. call) the method <code>toggleMessage</code> when user
+                        clicks on the button, we write <code>(click)="toggleMessage()"</code>.
+                    </p>
+                    <p>
+                        Wane will figure out that a change in your model (<code>greeting</code>) happens when this
+                        function
+                        is called, and the view will automatically update.
+                    </p>
+                    <p>
+                        Run the app now to see in action.
+                    </p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <pre><code>import { Template } from 'wane'
+
+@Template(`
+  &lt;p>{{ greeting }}, World!&lt;/p>
+  &lt;button <span data-area="binding">(click)="toggleMessage()"</span>>
+    Toggle greeting
+  &lt;/button>
+`)
+export default class {
+  greeting = `Hey there`
+
+<span data-area="method">  toggleMessage () {
+    if (this.greeting == `Hey there`) {
+      this.greeting = `Hello`
+    } else {
+      this.greeting = `Hey there`
+    }
+  }</span>
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div>
+                <div>
+                    <p>
+                        Let's now change <i>who</i> we are greeting. Our goal is to add an input field on the page
+                        where the user can type a name which we want to greet. In other words, given the user
+                        an option to change the <i>World</i> part of the template.
+                    </p>
+                    <p>
+                        Just like previously, we'll first <span data-trigger="extracting">extract <i>World</i></span>
+                        into a variable called
+                        <code>name</code> and <span data-trigger="interpolate">interpolate</span> that in the template
+                        in place of text <i>World</i>.
+                    </p>
+                    <p>
+                        Then we'll add the <span data-trigger="input">input field</span>.
+                        Remember that inputs must be connected to a <span data-trigger="label">label</span>.
+                        An easy way to do this is to put it <i>inside</i> the label.
+                    </p>
+                    <p>
+                        This won't still do anything. The input exists, but it is in no way connected to the
+                        variable <code>name</code>.
+                    </p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <pre><code>import { Template } from 'wane'
+
+@Template(`
+  &lt;p>{{ greeting }}, <span data-area="interpolate">{{ name }}</span>!&lt;/p>
+  &lt;button (click)="toggleMessage()">
+    Toggle greeting
+  &lt;/button>
+  <span data-area="label">&lt;label></span>
+    &lt;span>Name&lt;/span>
+    <span data-area="input">&lt;input type="text"></span>
+  &lt;/label>
+`)
+export default class {
+  greeting = `Hey there`
+  <span data-area="extracting">name = `World`</span>
+
+  toggleMessage () {
+    if (this.greeting == `Hey there`) {
+      this.greeting = `Hello`
+    } else {
+      this.greeting = `Hey there`
+    }
+  }
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div>
+                <div>
+                    <p>
+                        We'll listen to the DOM even in a similar way as we've listened to the <code>click</code>
+                        event on the button, except now we'll <span
+                            data-trigger="event">listen to the <code>change</code> event</span>.
+                    </p>
+                    <p>
+                        There's one important difference though: last time we didn't need the actual <i>event</i>
+                        from the button. All we cared was that it was clicked on. This time, knowing that the user
+                        changed the value to <i>something</i> is nothing enough. We need to grab the
+                        event emitted by the <code>input</code> element and read what user has typed from there.
+                    </p>
+                    <p>
+                        To do this, we use a special character for an argument in the function call: <code>#</code>.
+                    </p>
+                    <p>
+                        This basically means "grab the emitted value when the event happens". The event carries a lot
+                        of things, but what we really need is the value typed by the user. We can get this by
+                        <span data-trigger="target">inspecting the <code>target</code></span> of the event (which is the
+                        <code>input</code> element),
+                        and then <span data-trigger="value">reading its <code>value</code> property</span>.
+                    </p>
+                    <p>
+                        If you run the app now, you'll see that the name at the start of the page is
+                        changing as you write in the input field.
+                    </p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <pre><code>import { Template } from 'wane'
+@Template(`
+  &lt;p>{{ greeting }}, {{ name }}!&lt;/p>
+  &lt;button (click)="toggleMessage()">
+    Toggle greeting
+  &lt;/button>
+  &lt;label>
+    &lt;span>Name&lt;/span>
+    &lt;input
+      type="text"
+      <span data-area="event">(change)="onNameChange(#)"</span>
+    >
+  &lt;/label>
+`)
+export default class {
+  greeting = `Hey there`
+  name = `World`
+
+  toggleMessage () {
+    if (this.greeting == `Hey there`) {
+      this.greeting = `Hello`
+    } else {
+      this.greeting = `Hey there`
+    }
+  }
+
+  onNameChange (event: Event) {
+    const target = <span data-area="target">event.target</span> as HTMLInputElement
+    this.name = <span data-area="value">target.value</span>
+  }
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div>
+                <div>
+                    <p>
+                        There is, however, an issue here. The first time you open the app,
+                        the paragraph says "World" but the input field is empty. We need
+                        to synchronize the value of <code>name</code> not only in the paragraph,
+                        but also in the input field.
+                    </p>
+                    <p>
+                        We need to <b>bind</b> the value of <code>name</code> to the property <code>value</code>
+                        of the <code>input</code> element.
+                    </p>
+                    <p>
+                        Binding is achieved by using <code>[</code> and <code>]</code> to wrap the property
+                        that we want to bind to, and specifying the name of the variable that we're binding.
+                    </p>
+                    <p>
+                        For example, binding the value of variable <code>foo</code> to the property <code>bar</code>
+                        is done by writing <code>[bar]="foo"</code>.
+                    </p>
+                    <p>
+                        Take care to note the difference between <code>type="text"</code> and
+                        <code>[value]="name"</code>. In the first one, we're assigning the <i>literal</i> string
+                        "text" to <code>type</code>. In the second one, we're <i>reading the value</i> of a class
+                        property named <code>name</code>, and binding that value to the property <code>value</code>.
+                        You can tell the difference by presence of the wrapping pair of brackets.
+                    </p>
+                    <p>
+                        Wane will keep an eye on the value of <code>name</code> and trigger an update of the
+                        <code>value</code> property on the <code>input</code> element whenever it occurs.
+                    </p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <pre><code>import { Template } from 'wane'
+@Template(`
+  &lt;p>{{ greeting }}, {{ name }}!&lt;/p>
+  &lt;button (click)="toggleMessage()">
+    Toggle greeting
+  &lt;/button>
+  &lt;label>
+    &lt;span>Name&lt;/span>
+    &lt;input
+      type="text"
+      [value]="name"
+      (change)="onNameChange(#)"
+    >
+  &lt;/label>
+`)
+export default class {
+  greeting = `Hey there`
+  name = `World`
+
+  toggleMessage () {
+    if (this.greeting == `Hey there`) {
+      this.greeting = `Hello`
+    } else {
+      this.greeting = `Hey there`
+    }
+  }
+
+  onNameChange (event: Event) {
+    const target = event.target as HTMLInputElement
+    this.name = target.value
+  }
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+    </article>
+</main>
+
+<script src="index.js"></script>
+
 </body>
 </html>
