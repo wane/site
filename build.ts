@@ -4,6 +4,7 @@ import * as path from 'path'
 import * as glob from 'glob'
 import chalk from 'chalk'
 import gzipSize from 'gzip-size'
+// @ts-ignore (https://github.com/erwinmombay/brotli-size/pull/6)
 import brotliSize from 'brotli-size'
 import formatNumber from 'format-number'
 import { getBorderCharacters, table, TableUserConfig } from 'table'
