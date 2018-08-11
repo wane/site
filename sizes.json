@@ -5,9 +5,9 @@
     "brotli": 4285
   },
   "index.js": {
-    "raw": 1223,
-    "gzip": 445,
-    "brotli": 351
+    "raw": 770,
+    "gzip": 367,
+    "brotli": 277
   },
   "logo.svg": {
     "raw": 547,
@@ -20,8 +20,8 @@
     "brotli": 569
   },
   "total": {
-    "raw": 20004,
-    "gzip": 6820,
-    "brotli": 5505
+    "raw": 19551,
+    "gzip": 6742,
+    "brotli": 5431
   }
 }
