@@ -1,11 +1,14 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
+import * as util from 'util'
 import * as glob from 'glob'
 import chalk from 'chalk'
 import gzipSize from 'gzip-size'
 import brotliSize from 'brotli-size'
 import formatNumber from 'format-number'
 import { getBorderCharacters, table } from 'table'
+// @ts-ignore
+import validateHtml from 'html-tag-validator'
 
 const sourceFolder = 'src'
 const distFolder = 'dist'
@@ -41,7 +44,15 @@ async function buildAll (sourceFolder: string, distFolder: string) {
 }
 
 async function buildHtml (sourceFolder: string, distFolder: string) {
-  fs.copySync(`${sourceFolder}/index.html`, `${distFolder}/index.html`)
+  const sourceFilePath = `${sourceFolder}/index.html`
+  const sourceFileContent = fs.readFileSync(sourceFilePath, 'utf-8')
+  try {
+    const result = await util.promisify(validateHtml)(sourceFileContent)
+    console.log(result)
+    fs.copySync(sourceFilePath, `${distFolder}/index.html`)
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 async function buildJavaScript (sourceFolder: string, distFolder: string) {
