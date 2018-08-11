@@ -470,6 +470,10 @@ hosted-git-info@^2.1.4:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.7.1.tgz#97f236977bd6e125408930ff6de3eec6281ec047"
 
+html-tag-validator@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/html-tag-validator/-/html-tag-validator-1.6.0.tgz#ccd115ec3063595e2240985525d39732040f9b43"
+
 http-signature@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/http-signature/-/http-signature-1.2.0.tgz#9aecd925114772f3d95b65a60abb8f7c18fbace1"
