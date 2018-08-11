@@ -1,0 +1,27 @@
+{
+  "index.html": {
+    "raw": 23554,
+    "gzip": 5792,
+    "brotli": 4644
+  },
+  "index.js": {
+    "raw": 1223,
+    "gzip": 445,
+    "brotli": 351
+  },
+  "logo.svg": {
+    "raw": 547,
+    "gzip": 332,
+    "brotli": 300
+  },
+  "styles.css": {
+    "raw": 1798,
+    "gzip": 708,
+    "brotli": 569
+  },
+  "total": {
+    "raw": 27122,
+    "gzip": 7277,
+    "brotli": 5864
+  }
+}

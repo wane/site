@@ -14,6 +14,7 @@
     "@types/fs-extra": "^5.0.4",
     "@types/glob": "^5.0.35",
     "@types/gzip-size": "^4.1.0",
+    "@types/lodash": "^4.14.116",
     "@types/node-sass": "^3.10.32",
     "@types/table": "^4.0.5",
     "chalk": "^2.4.1",
@@ -21,7 +22,10 @@
     "fs-extra": "^7.0.0",
     "glob": "^7.1.2",
     "gzip-size": "^5.0.0",
+    "is-travis": "^2.0.0",
+    "lodash": "^4.17.10",
     "node-sass": "^4.9.3",
+    "prompt": "^1.0.0",
     "table": "^4.0.3",
     "typescript": "^3.0.1"
   },
