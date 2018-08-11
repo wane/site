@@ -1,8 +1,8 @@
 {
   "index.html": {
-    "raw": 23554,
-    "gzip": 5792,
-    "brotli": 4644
+    "raw": 16436,
+    "gzip": 5335,
+    "brotli": 4285
   },
   "index.js": {
     "raw": 1223,
@@ -20,8 +20,8 @@
     "brotli": 569
   },
   "total": {
-    "raw": 27122,
-    "gzip": 7277,
-    "brotli": 5864
+    "raw": 20004,
+    "gzip": 6820,
+    "brotli": 5505
   }
 }
