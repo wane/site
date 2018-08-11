@@ -1,18 +1,19 @@
 {
-  "include": [
-    "src/**/*.ts"
+  "files": [
+    "build.ts"
   ],
   "compilerOptions": {
     "target": "es2018",
-    "module": "es2015",
+    "module": "commonjs",
     "lib": [
-      "dom",
-      "es2018"
+      "es2015",
+      "es2018",
+      "es2015.promise"
     ],
+    "resolveJsonModule": true,
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true,
-    "outDir": "dist"
+    "esModuleInterop": true
   }
 }

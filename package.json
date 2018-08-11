@@ -8,14 +8,14 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "tsc && node build.js"
+    "build": "tsc -p tsconfig.build.json && node build.js"
   },
   "devDependencies": {
     "@types/fs-extra": "^5.0.4",
     "@types/glob": "^5.0.35",
     "@types/gzip-size": "^4.1.0",
-    "@types/lodash": "^4.14.116",
     "@types/html-minifier": "^3.5.2",
+    "@types/lodash": "^4.14.116",
     "@types/node-sass": "^3.10.32",
     "@types/table": "^4.0.5",
     "brotli-size": "^0.0.3",
@@ -24,13 +24,17 @@
     "fs-extra": "^7.0.0",
     "glob": "^7.1.2",
     "gzip-size": "^5.0.0",
+    "html-minifier": "^3.5.19",
     "is-travis": "^2.0.0",
     "lodash": "^4.17.10",
-    "html-minifier": "^3.5.19",
     "node-sass": "^4.9.3",
     "prompt": "^1.0.0",
+    "rollup": "^0.64.1",
+    "rollup-plugin-typescript": "^0.8.1",
+    "rollup-plugin-uglify": "3.0.0",
     "table": "^4.0.3",
-    "typescript": "^3.0.1"
+    "typescript": "^3.0.1",
+    "uglify-es": "^3.3.9"
   },
   "dependencies": {}
 }

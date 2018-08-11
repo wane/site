@@ -14,6 +14,11 @@ import * as prompt from 'prompt'
 import _ from 'lodash'
 // @ts-ignore
 import isTravis from 'is-travis'
+import { rollup } from 'rollup'
+// @ts-ignore
+import uglify from 'rollup-plugin-uglify'
+// @ts-ignore
+import rollupPluginTypescript from 'rollup-plugin-typescript'
 
 async function confirm (question: string, positive: Function, negative: Function): Promise<void> {
 
@@ -136,7 +141,31 @@ async function buildHtml (sourceFolder: string, distFolder: string) {
 }
 
 async function buildJavaScript (sourceFolder: string, distFolder: string) {
-  fs.copySync(`${sourceFolder}/index.js`, `${distFolder}/index.js`)
+  const bundle = await rollup({
+    input: `${sourceFolder}/index.ts`,
+    plugins: [
+      rollupPluginTypescript({
+        typescript: require('typescript'),
+      }),
+      uglify({
+        compress: {
+          // passes: 2,
+          keep_fargs: false,
+        },
+        mangle: {
+          toplevel: true,
+          properties: {
+            reserved: require('uglify-es/tools/domprops'),
+          },
+        },
+        toplevel: true,
+      }),
+    ],
+  })
+  await bundle.write({
+    format: 'iife',
+    file: `${distFolder}/index.js`,
+  })
 }
 
 async function buildStyles (sourceFolder: string, distFolder: string) {
@@ -267,13 +296,13 @@ async function assertSizes (sizesSnapshotPath: string, folder: string, sizes: Re
       data[file] = {
         rawOld: 0,
         rawNew: sizes[file].raw,
-        rawDiff: sizeDiff[file].raw,
+        rawDiff: sizes[file].raw,
         gzipOld: 0,
         gzipNew: sizes[file].gzip,
-        gzipDiff: sizeDiff[file].gzip,
+        gzipDiff: sizes[file].gzip,
         brotliOld: 0,
         brotliNew: sizes[file].brotli,
-        brotliDiff: sizeDiff[file].brotli,
+        brotliDiff: sizes[file].brotli,
       }
     })
     Object.keys(sizeDiff).forEach(file => {
