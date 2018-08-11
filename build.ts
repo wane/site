@@ -59,13 +59,21 @@ async function buildAssets (sourceFolder: string, distFolder: string) {
 async function computeSizes (folder: string) {
   const files = glob.sync(`${folder}/**/*`)
   const result: Record<string, { raw: number, gzip: number, brotli: number }> = {}
+  const total: ValueOf<typeof result> = { raw: 0, gzip: 0, brotli: 0 }
+
   files.forEach(file => {
     const fileContent = fs.readFileSync(file)
     const raw = fileContent.byteLength
     const gzip = gzipSize.sync(fileContent)
     const brotli = brotliSize.sync(fileContent)
     result[path.basename(file)] = { raw, gzip, brotli }
+    total.raw += raw
+    total.gzip += gzip
+    total.brotli += brotli
   })
+
+  result['total'] = total
+
   return result
 }
 
@@ -92,6 +100,10 @@ async function getPrettyTable<T> (data: Record<string, Record<string, number>>):
   })
 
   tableData.unshift(['', ...columnNames.map(x => columnNameStyle(x))])
+
+  // Mark last as bold
+  const lastRow = tableData[tableData.length - 1]
+  lastRow[lastRow.length - 1] = chalk.bold(lastRow[lastRow.length - 1])
 
   return table(tableData, {
     columnDefault: {
@@ -128,7 +140,7 @@ async function getPrettyTable<T> (data: Record<string, Record<string, number>>):
       joinBody: borderStyle('─'),
     },
     drawHorizontalLine: (index, size) => {
-      return [0, 1, size].includes(index)
+      return [0, 1, size - 1, size].includes(index)
     },
   })
 }
