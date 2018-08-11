@@ -8,6 +8,7 @@ import gzipSize from 'gzip-size'
 import brotliSize from 'brotli-size'
 import formatNumber from 'format-number'
 import { getBorderCharacters, table, TableUserConfig } from 'table'
+import { minify } from 'html-minifier'
 // @ts-ignore
 import * as prompt from 'prompt'
 import _ from 'lodash'
@@ -115,7 +116,23 @@ async function buildAll (sourceFolder: string, distFolder: string) {
 }
 
 async function buildHtml (sourceFolder: string, distFolder: string) {
-  fs.copySync(`${sourceFolder}/index.html`, `${distFolder}/index.html`)
+  const sourceFilePath = `${sourceFolder}/index.html`
+  const htmlContent = fs.readFileSync(sourceFilePath, 'utf8')
+  const minified = minify(htmlContent, {
+    collapseBooleanAttributes: true,
+    collapseInlineTagWhitespace: true,
+    collapseWhitespace: true,
+    conservativeCollapse: true,
+    decodeEntities: true,
+    minifyURLs: true,
+    removeAttributeQuotes: true,
+    removeComments: true,
+    removeEmptyAttributes: true,
+    sortAttributes: true,
+    sortClassName: true,
+    useShortDoctype: true,
+  })
+  fs.writeFileSync(`${distFolder}/index.html`, minified, 'utf8')
 }
 
 async function buildJavaScript (sourceFolder: string, distFolder: string) {
