@@ -21,12 +21,15 @@
 
 <aside>
     <p>
-        <b>Wane</b> is a framework for building single page applications. But it's more than that: it's also a compiler and a bundler.
-        Instead of relying on existing framework code, it analyzes your code as if it were a blueprint for the app, and then generates
+        <b>Wane</b> is a framework for building single page applications. But it's more than that: it's also a compiler
+        and a bundler.
+        Instead of relying on existing framework code, it analyzes your code as if it were a blueprint for the app, and
+        then generates
         custom optimized code according to what it can conclude.
     </p>
     <p>
-        This means your code will never be bloated with features you don't use. For example, Hello World is less than 150 bytes (with brotli
+        This means your code will never be bloated with features you don't use. For example, Hello World is less than
+        150 bytes (with brotli
         compression).
     </p>
     <p>
@@ -84,8 +87,8 @@
             <div>
                 <div>
                     <p>
-                        The setup probably feels pretty familiar since it's basically the same as using any other
-                        framework or library when developing a web app.
+                        The setup probably feels pretty familiar since the basic principles are the same as using any
+                        other framework or library when developing a web app.
                     </p>
                     <p>
                         Just use whichever package manager you're used to and fire the installation command. The package
@@ -109,11 +112,11 @@ $ yarn add wane</code></pre>
                 <div>
                     <p>
                         Having proper <b>directory structure</b> is quite important, so we'll immediately set that up.
-                        Worry not, for now we only need one.
+                        Worry not, it's just a single folder.
                     </p>
                     <p>
                         In the root directory of your project, you'll need a <code>src</code> folder. This is where
-                        all the fun will happen. In that folder, create a file named <code>entry.ts</code>.
+                        all the fun will happen. In that folder, create a file named <code>index.ts</code>.
                         This TypeScript file is where all the magics starts from. When we write the code, Wane will
                         open this file and start analyzing your code from here.
                     </p>
@@ -122,7 +125,7 @@ $ yarn add wane</code></pre>
             <div>
                 <div>
             <pre><code>$ mkdir src
-$ touch src/entry.ts</code></pre>
+$ touch src/index.ts</code></pre>
                 </div>
             </div>
         </section>
@@ -172,31 +175,31 @@ $ touch src/entry.ts</code></pre>
             <div>
                 <div>
                     <p>
-                        To run the application, simply run the binary executable which comes with the installed <code>wane</code>
-                        package. It's called, you guessed it, <b><code>wane</code></b>.
+                        To run the application, simply run the binary executable which comes with the installed
+                        <code>wane</code> package -- it's called (you guessed it) <b><code>wane</code></b>.
                     </p>
                     <p>
                         You'll have to utilize your package manager because <code>wane</code> is not a global
                         executable.
                     </p>
                     <p>
-                        After running the command, if everything went well, you should be seeing a friendly success
-                        message.
+                        Wane allows you to run the app in development mode or to build it for production. For now,
+                        we'll use the <b>dev mode</b>, which is activated by the <code>start</code> command.
                     </p>
                     <p>
-                        The generated bundle should appear in the <code>dist</code> folder. Go into the folder and
-                        simply open the <code>index.html</code> page in your browser. You should see "Hello, World!"
-                        written at the top left corner of the page.
+                        While the dev server is running, it will watch over your code: with every change you save,
+                        Wane will re-compile your application, and then refresh the browser page so you can see the
+                        changes in action.
                     </p>
                 </div>
             </div>
             <div>
                 <div>
                     <pre><code># with npm
-$ npx wane
+$ npx wane start
 
 # with yarn
-$ yarn wane</code></pre>
+$ yarn wane start</code></pre>
                 </div>
             </div>
         </section>
@@ -241,9 +244,9 @@ $ yarn wane</code></pre>
                         Whenever the value changes, the view will update automatically. We'll get to that pretty soon.
                     </p>
                     <p>
-                        If you compile the app again, you'll see that nothing changed. This is because we've
-                        created the exact replica of the previous file, just in a different way.
-                        Change the string <i>Hello</i> to <i>Hey there</i> to see the change.
+                        If you save these changes, you'll see that nothing changed in the browser. This is because we've
+                        created the exact replica of the previous version of the app, just in a different way.
+                        Change the string <i>Hello</i> to <i>Hey there</i> and hit "save" to see the change.
                     </p>
                 </div>
             </div>
@@ -267,8 +270,7 @@ export default class {
                     </p>
                     <p>
                         The first step is to simply <span data-trigger="button">add the button</span> to the template.
-                        If you click it, it
-                        will not do anything yet.
+                        If you click it, it will not do anything yet.
                     </p>
                 </div>
             </div>
@@ -291,9 +293,9 @@ export default class {
             <div>
                 <div>
                     <p>
-                        Now let's create the <span data-trigger="method">method</span> on the class which does the
-                        toggling. It's simple: if the
-                        string already is <i>Hey there</i>, we change it to <i>Hello</i> and otherwise we change it
+                        Now let's create a <span data-trigger="method">method</span> on the class which will handle
+                        the toggling requirement that we've set. It's straightforward: if the string already is
+                        <i>Hey there</i>, we change it to <i>Hello</i>; otherwise we change it
                         to <i>Hey there</i>.
                     </p>
                 </div>
@@ -332,17 +334,15 @@ export default class {
                     <p>
                         To do this, we need an <b>event binding</b> on the <code>&lt;button></code> element.
                         This is done by <span data-trigger="binding">adding an attribute</span> in the template.
-                        The attribute name is the name of the event
-                        you're listening for, surrounded by parenthesis.
+                        The attribute name is the name of the event you're listening for, surrounded by parenthesis.
                     </p>
                     <p>
-                        For example, if we want to invoke (ie. call) the method <code>toggleMessage</code> when user
+                        For example, if we want to invoke (i.e. call) the method <code>toggleMessage</code> when user
                         clicks on the button, we write <code>(click)="toggleMessage()"</code>.
                     </p>
                     <p>
                         Wane will figure out that a change in your model (<code>greeting</code>) happens when this
-                        function
-                        is called, and the view will automatically update.
+                        function is called, and the view will automatically update.
                     </p>
                     <p>
                         Run the app now to see in action.
