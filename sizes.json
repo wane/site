@@ -15,13 +15,13 @@
     "brotli": 300
   },
   "styles.css": {
-    "raw": 1798,
-    "gzip": 708,
-    "brotli": 569
+    "raw": 1542,
+    "gzip": 651,
+    "brotli": 511
   },
   "total": {
-    "raw": 19705,
-    "gzip": 6810,
-    "brotli": 5504
+    "raw": 19449,
+    "gzip": 6753,
+    "brotli": 5446
   }
 }

@@ -19,6 +19,7 @@ import { rollup } from 'rollup'
 import uglify from 'rollup-plugin-uglify'
 // @ts-ignore
 import rollupPluginTypescript from 'rollup-plugin-typescript'
+import * as sass from 'node-sass'
 
 async function confirm (question: string, positive: Function, negative: Function): Promise<void> {
 
@@ -169,7 +170,10 @@ async function buildJavaScript (sourceFolder: string, distFolder: string) {
 }
 
 async function buildStyles (sourceFolder: string, distFolder: string) {
-  fs.copySync(`${sourceFolder}/styles.css`, `${distFolder}/styles.css`)
+  const result = sass.renderSync({
+    file: `${sourceFolder}/styles.scss`,
+  })
+  fs.writeFileSync(`${distFolder}/styles.css`, result.css.toString('utf8'))
 }
 
 async function buildAssets (sourceFolder: string, distFolder: string) {
